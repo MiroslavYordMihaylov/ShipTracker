@@ -3,18 +3,19 @@ import pytz
 import websockets
 import json
 from datetime import datetime, timezone
-
 import art
-
+import countrycodes
 
 async def connect_ais_stream():
 
     print(art.caption)
     print(art.ship)
 
+    reset_color = "\033[0;0m"  # Resets formatting back to default
+
     async with websockets.connect("wss://stream.aisstream.io/v0/stream") as websocket:
         # "FiltersShipMMSI": ["538007480", "636015988", "316003701"]
-        subscribe_message = {"APIKey": "<YOUR API KEY>",
+        subscribe_message = {"APIKey": "7d90db489d07087e49b22d9cda307bbe4c0dac77",
                              "BoundingBoxes": [[[40.9, 27.45], [46.6, 41.77]]],
                              "FilterMessageTypes": ["PositionReport"]
                              }
@@ -33,19 +34,10 @@ async def connect_ais_stream():
             lat = round(ais_message['Latitude'], 5)
             lon = round(ais_message['Longitude'], 5)
 
-            if(ship_id.startswith('207')):
-                print(f"[{current_time}]",f"Name: {vessel_name}", f"ShipId:\033[92m BG {ship_id}\033[0;0m", f"Latitude: {lat} Longitude: {lon}")
-            elif (ship_id.startswith('271')):
-                print(f"[{current_time}]",f"Name: {vessel_name}", f"ShipId:\033[91m TR {ship_id}\033[0;0m", f"Latitude: {lat} Longitude: {lon}")
-            elif (ship_id.startswith('213')):
-                print(f"[{current_time}]",f"Name: {vessel_name}", f"ShipId: GE {ship_id}", f"Latitude: {lat} Longitude: {lon}")
-            elif (ship_id.startswith('273')):
-                print(f"[{current_time}]",f"Name: {vessel_name}", f"ShipId:\033[94m RU {ship_id}\033[0;0m", f"Latitude: {lat} Longitude: {lon}")
-            elif (ship_id.startswith('272')):
-                print(f"[{current_time}]",f"Name: {vessel_name}", f"ShipId:\033[93m UA {ship_id}\033[0;0m", f"Latitude: {lat} Longitude: {lon}")
-            else:
-                print(f"[{current_time}]",f"Name: {vessel_name}", f"ShipId: {ship_id}", f"Latitude: {lat} Longitude: {lon}")
+            country_code = ship_id[:3]  # Extracts first 3 digits from ship_id
+            color = countrycodes.colors_dict.get(country_code, '')  # Looks up the color+country string
 
+            print(f"[{current_time}]",f"Name: {vessel_name.strip()}", f"ShipId: {color} {ship_id}{reset_color}", f"Latitude: {lat} Longitude: {lon}")
 
 if __name__ == "__main__":
     asyncio.run(connect_ais_stream())
