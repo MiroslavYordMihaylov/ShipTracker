@@ -15,16 +15,22 @@ async def connect_ais_stream():
 
     async with websockets.connect("wss://stream.aisstream.io/v0/stream") as websocket:
         # "FiltersShipMMSI": ["538007480", "636015988", "316003701"]
-        subscribe_message = {"APIKey": "<YOUR API KEY>",
+        subscribe_message = {"APIKey": "7d90db489d07087e49b22d9cda307bbe4c0dac77",
                              "BoundingBoxes": [[[40.9, 27.45], [46.6, 41.77]]],
                              "FilterMessageTypes": ["PositionReport"]
                              }
 
         subscribe_message_json = json.dumps(subscribe_message)
+        # converts the python dict to a json string which the api expects 
         await websocket.send(subscribe_message_json)
+        # pauses execution until the message is fully sent 
+        # sends the subscription request to the api through the open websocket 
 
         async for message_json in websocket:
+            # asynchronously iterates over incoming messages
+            # pauses between messages, waiting for the next one to arrive
             message = json.loads(message_json)
+            # parses the JSON message back into a Python dict
             ais_message = message['Message']['PositionReport']
             ais_name = message['MetaData']
 
