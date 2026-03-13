@@ -1,10 +1,14 @@
 import asyncio
 import pytz
 import websockets
-import json
+import json     
 from datetime import datetime, timezone
 import art
 import countrycodes
+from dotenv import load_dotenv
+import os
+load_dotenv(".env")
+
 
 async def connect_ais_stream():
 
@@ -15,7 +19,7 @@ async def connect_ais_stream():
 
     async with websockets.connect("wss://stream.aisstream.io/v0/stream") as websocket:
         # "FiltersShipMMSI": ["538007480", "636015988", "316003701"]
-        subscribe_message = {"APIKey": "6c6d878c95b050c15bdacaaca51ea60aa2ee3132",
+        subscribe_message = {"APIKey": os.getenv("API_KEY"),
                              "BoundingBoxes": [[[40.9, 27.45], [46.6, 41.77]]],
                              "FilterMessageTypes": ["PositionReport"]
                              }
