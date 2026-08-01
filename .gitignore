@@ -12,7 +12,7 @@ release/
 app-release/
 app-build/
 
-# Electron specific
+# Electron 
 electron/dist/
 electron/out/
 

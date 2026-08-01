@@ -7,6 +7,7 @@ import countrycodes
 import coordinates
 from dotenv import load_dotenv
 import os
+from time import sleep
 load_dotenv(".env")
 
 
@@ -50,5 +51,12 @@ async def connect_ais_stream():
                 f.write(f"[{current_time}] Name: {vessel_name.strip()} ShipId: {color} {ship_id}{reset_color} Latitude: {lat} Longitude: {lon}\n")
             f.close()
 
+
+async def close_websocket():
+    global active_websocket
+    if active_websocket:
+        print("Closing connection...")
+        await active_websocket.close()
+    
 if __name__ == "__main__":
     asyncio.run(connect_ais_stream())
