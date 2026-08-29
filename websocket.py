@@ -7,7 +7,6 @@ import countrycodes
 import coordinates
 from dotenv import load_dotenv
 import os
-from time import sleep
 load_dotenv(".env")
 
 

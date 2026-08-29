@@ -1,11 +1,22 @@
 import art
-from getpass import getpass
-import subprocess
 import os
-import websockets
-import websocket
+import auth
+
+
 yes = ["y", "yes", "", " "]
 no = ["n", "no"]
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    RED = '\033[0;31m'
 
 def main():
     print(art.caption)
@@ -32,22 +43,13 @@ def main_menu():
         answer = input("Do you have an account? Y/n?\n").lower()
         
         if answer in yes:
-            login()
+            auth.login()
         elif answer in no:
-            register()
+            auth.register()
         else:
             print("Please respond with 'yes' or 'no'")
             main_menu()
             
-
-def register():
-    print(art.register)
-
-def login():
-    print(art.login)
-    user = input("username: ")
-    password = input("password: ")
-
 def open_websocket():
     pass
 
