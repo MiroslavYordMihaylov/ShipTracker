@@ -5,13 +5,13 @@ import auth
 conn = sqlite3.connect('ship.db') 
 cursor = conn.cursor()
 
-command1 = """CREATE TABLE IF NOT EXISTS credentials (
+table = """CREATE TABLE IF NOT EXISTS credentials (
         id UUID PRIMARY KEY,
         username VARCHAR(50) UNIQUE NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
         password_hash VARCHAR(255) NOT NULL)"""
 
-cursor.execute(command1)
+cursor.execute(table)
 
 # Create a unique user id
 user_id = str(uuid.uuid4())
@@ -25,7 +25,8 @@ def succ_registration():
         )
     cursor.execute("SELECT * FROM credentials")
 
-    # result = cursor.fetchall()
-    # print(result)
+    result = cursor.fetchall()
+    print(result)
     
     conn.close()
+    auth.login()
