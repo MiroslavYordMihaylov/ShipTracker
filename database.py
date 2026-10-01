@@ -25,7 +25,7 @@ def succ_registration():
         )
     cursor.execute("SELECT * FROM credentials")
 
-    result = cursor.fetchall()
-    print(result)
+    # result = cursor.fetchall()
+    # print(result)
     
     conn.close()

@@ -19,6 +19,7 @@ def register():
         database.succ_registration()
     else:
         print(main.bcolors.RED + "Registration failed" + main.bcolors.ENDC)
+        main()
 def login():
     print(art.login)
     user = input("username:\n")
