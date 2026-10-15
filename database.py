@@ -6,17 +6,17 @@ conn = sqlite3.connect('ship.db')
 cursor = conn.cursor()
 
 table = """CREATE TABLE IF NOT EXISTS credentials (
-        id UUID PRIMARY KEY,
-        username VARCHAR(50) UNIQUE NOT NULL,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        password_hash VARCHAR(255) NOT NULL)"""
+        ID UUID PRIMARY KEY,
+        USERNAME VARCHAR(50) UNIQUE NOT NULL,
+        EMAIL VARCHAR(255) UNIQUE NOT NULL,
+        PASSWORD VARCHAR(255) NOT NULL)"""
 
 cursor.execute(table)
 
 # Create a unique user id
 user_id = str(uuid.uuid4())
 
-
+# Purely for debugging reasons
 def succ_registration():
     with conn:
         cursor.execute(

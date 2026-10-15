@@ -1,7 +1,7 @@
 import art
 import os
 import auth
-
+import test
 
 yes = ["y", "yes", "", " "]
 no = ["n", "no"]
@@ -43,9 +43,9 @@ def main_menu():
         answer = input("Do you have an account? Y/n?\n").lower()
         
         if answer in yes:
-            auth.login()
+            test.login()
         elif answer in no:
-            auth.register()
+            test.register()
         else:
             print("Please respond with 'yes' or 'no'")
             main_menu()
