@@ -8,38 +8,16 @@ import pwinput
 # Sqlite database and table
 def sqllitefile():
     global conn
-    global cursor
-
     conn = sqlite3.connect('ship.db') 
-    cursor = conn.cursor()
-
-    table = """CREATE TABLE IF NOT EXISTS credentials 
-        (USERNAME TEXT PRIMARY KEY NOT NULL,
-        PASSWORD VARCHAR(255) NOT NULL)"""
-
-    cursor.execute(table)
-
-# Create a unique user id
-user_id = str(uuid.uuid4())
-
-# Purely for debugging reasons
-
-# def succ_registration():
-#     with conn:
-#         cursor.execute(
-#             "INSERT INTO credentials VALUES (?, ?, ?, ?)",
-#             (user_id, username, email, password)
-#         )
-#     cursor.execute("SELECT * FROM credentials")
-
-#     result = cursor.fetchall()
-#     print(result)
     
-#     conn.close()
-#     login()
+    global c
+    c = conn.cursor()
+
+    c.execute("""CREATE TABLE IF NOT EXISTS credentials 
+        (USERNAME TEXT PRIMARY KEY NOT NULL,
+        PASSWORD VARCHAR(255) NOT NULL)""")
 
 
-# Instructions for registration
 def useridins():
     print('--------------------------------------------------------------------------------')
     print('email/username Instructions:')
@@ -58,7 +36,6 @@ def passwordins():
     print('5. password must contain atleast one lower case character')
 
 
-# For conditions in user id for registration
 def username_check_func(u):
     numbers = '0123456789'
     sc = """~`!@#$%^&*()_-+={[}]|\:;"'<,>.?/"""
@@ -74,7 +51,6 @@ def username_check_func(u):
         return False
 
 
-# For conditions in password for registration
 def password_check_func(p):
     sc = """~`!@#$%^&*()_-+={[}]|\:;"'<,>.?/"""
     numbers = '0123456789'
@@ -94,28 +70,9 @@ def password_check_func(p):
         return True
     else:
         return False
-
-# def register():
-#     global email
-#     global password
-
-#     print(art.register)
-#     username = input("username:\n")
-#     email = input("email:\n")
-#     password = pwinput.pwinput("password:\n")
-#     ver_password = pwinput.pwinput("verify password:")
-#     if password == ver_password:
-#         print(main.bcolors.OKGREEN + "Registration successful!" + main.bcolors.ENDC)
-#         succ_registration()
-#         login()
-#     else:
-#         print(main.bcolors.RED + "Registration failed - Password doesn't match!" + main.bcolors.ENDC)
-#         register()
-
-# For Registeration
+    
 def register():
-    # User Name
-
+    
     nu = True
     while nu:
         useridins()
@@ -151,15 +108,14 @@ def register():
             print('Read the below instructions carefully:')
 
     # File Handling
-    cursor.execute("INSERT INTO credentials (USERNAME, PASSWORD) \
+    c.execute("INSERT INTO credentials (USERNAME, PASSWORD) \
           VALUES (?, ?)", (username, password))
     conn.commit()
-    cursor.close()
+    c.close()
     conn.close()
-    print('------------------------')
-    print('congratulation....')
-    print('Registration is complete')
 
+    print(main.bcolors.OKGREEN + "Registration Successful!" + main.bcolors.ENDC)
+    login()
 
 
 # For Password in Login
@@ -169,7 +125,7 @@ def login_password():
     print("Enter any number other than 1 to type password or Enter 1 if you forgot your password")
     pc = input()
     if pc == '1':
-        password = cursor.execute("select PASSWORD from credentials \
+        password = c.execute("select PASSWORD from credentials \
                     where USERNAME = ?", (username,)).fetchone()
         print('-----------------------------------------------------------------')
         print(f'Password for the mentioned username - {username} is :')
@@ -177,7 +133,7 @@ def login_password():
     else:
         print('--------------------------')
         password = input('Enter Password for login: ')
-        password_exists = cursor.execute("select PASSWORD from credentials \
+        password_exists = c.execute("select PASSWORD from credentials \
         where USERNAME = ? and PASSWORD = ?", (username, password,)).fetchone()
         if password_exists:
             print('------------------')
@@ -194,10 +150,12 @@ def login():
     global unchoice
     unchoice, re = 1, 1
     global username
+
+    sqllitefile()
     print(art.login)
     print('------------------------------------')
     username = input('Enter username/email to login: ')
-    user_exists = cursor.execute("select USERNAME from credentials where USERNAME like ?", (username,)).fetchone()
+    user_exists = c.execute("select USERNAME from credentials where USERNAME like ?", (username,)).fetchone()
     if not user_exists:
         print('---------------------- --------------------------------------------')
         print('user name does not exist, Please Register first')

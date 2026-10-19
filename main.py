@@ -2,6 +2,8 @@ import art
 import os
 import auth
 import test
+import subprocess
+import sys
 
 yes = ["y", "yes", "", " "]
 no = ["n", "no"]
@@ -26,12 +28,8 @@ def main():
     if entry_responce in yes:
 
         print("Searching for ships!..")
-        os.startfile("websocket.py")
-        close = input()
-        if close == "stop":
-            pass
-        else:
-            pass
+        subprocess.run("python websocket.py")
+
     elif entry_responce in no:
         main_menu()
     else:
@@ -50,8 +48,5 @@ def main_menu():
             print("Please respond with 'yes' or 'no'")
             main_menu()
             
-def open_websocket():
-    pass
-
 if __name__ == "__main__":
     main()

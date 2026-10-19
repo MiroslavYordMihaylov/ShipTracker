@@ -18,7 +18,7 @@ async def connect_ais_stream():
         "wss://stream.aisstream.io/v0/stream"
     ) as websocket:
         subscribe_message = {
-            "APIKey": os.getenv("API_KEY"),
+            "APIKey": os.getenv("AISSTREAM_API_KEY"),
             "BoundingBoxes": [coordinates.black_sea],
             "FilterMessageTypes": ["PositionReport"],
         }
