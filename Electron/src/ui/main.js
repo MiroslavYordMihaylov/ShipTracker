@@ -1,9 +1,8 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import 'src/ui/style.css';
+import './style.css';
 
 const cartoApiKey = import.meta.env.VITE_CARTO_API_KEY;
-
 const map = L.map('map', {
   scrollWheelZoom: true
 }).setView([43.0, 34.0], 6);
