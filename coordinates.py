@@ -1,5 +1,5 @@
 # Format: variable_name = [[min_lat, min_lon], [max_lat, max_lon]]
-
+world_box = [[-90.0, -180.0], [90.0, 180.0]]
 # Oceans
 pacific_ocean = [[-60.0, -180.0], [65.0, -70.0]]
 atlantic_ocean = [[-60.0, -75.0], [60.0, 20.0]]
