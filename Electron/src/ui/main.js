@@ -20,7 +20,7 @@ L.tileLayer(`https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=$
   maxZoom: 20
 }).addTo(map);
 
-// ---------- helpers ----------
+
 const esc = (s) =>
   String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -39,9 +39,7 @@ function label(p) {
   return parts.join(' &middot; ');
 }
 
-// ---------- ships layer ----------
-// Clustering keeps nearby ships from overlapping; at max zoom, ships at the
-// exact same spot fan out (spiderfy) when clicked.
+ // ship and clusters
 const cluster = L.markerClusterGroup({
   maxClusterRadius: 40,
   spiderfyOnMaxZoom: true,
@@ -68,8 +66,8 @@ const realtime = L.realtime(
   }
 ).addTo(map);
 
-// ---------- live feed ----------
-const seen = new Map(); // mmsi -> { feature, t }
+ // feed
+const seen = new Map(); // mmsi in format - { feature, t }
 const statusEl = document.getElementById('status');
 
 function setStatus(text, ok) {
